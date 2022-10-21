@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->unsignedInteger('role')->default(1);
-            $table->bigInteger('total_point')->nullable();
-            $table->bigInteger('used_point')->nullable();
+            $table->bigInteger('record_detail_id')->unsigned();
+            $table->longText('comment');
+            $table->bigInteger('bonus_point');
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('feedback');
     }
 };
