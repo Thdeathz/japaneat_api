@@ -4,83 +4,90 @@ namespace App\Http\Controllers;
 
 use App\Models\VideoDetail;
 use App\Http\Requests\StoreVideoDetailRequest;
-use App\Http\Requests\UpdateVideoDetailRequest;
+use App\Models\Videos;
+use Illuminate\Http\JsonResponse;
 
 class VideoDetailController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
-    }
+        $videos = VideoDetail::all();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $this->respond($videos);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreVideoDetailRequest  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreVideoDetailRequest $request
+     * @return JsonResponse
      */
-    public function store(StoreVideoDetailRequest $request)
+    public function store(StoreVideoDetailRequest $request): JsonResponse
     {
-        //
+        if($request->validated()) {
+            $video = Videos::query()->create([
+                'url'       => $request->get('url'),
+                'thumbnail' => $request->get('thumbnail')
+            ]);
+            $video_detail = $request->validated();
+            $video_detail['video_id'] = $video->id;
+            VideoDetail::query()->create($video_detail);
+            return response()->json([
+                'message' => 'Add video successfully'
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Add video failed'
+        ], 400);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\VideoDetail  $videoDetail
-     * @return \Illuminate\Http\Response
+     * @param $video_detail_id
+     * @return JsonResponse
      */
-    public function show(VideoDetail $videoDetail)
+    public function show($video_detail_id): JsonResponse
     {
-        //
+        $video = VideoDetail::query()->where('id', '=', $video_detail_id)->get();
+
+        return $this->respond($video);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Get the token array structure.
      *
-     * @param  \App\Models\VideoDetail  $videoDetail
-     * @return \Illuminate\Http\Response
+     * @param object $videos
+     * @return JsonResponse
      */
-    public function edit(VideoDetail $videoDetail)
+    protected function respond(object $videos): JsonResponse
     {
-        //
-    }
+        $videos = $videos->map(function ($video) {
+            $video_inf = $video->video;
+            $teacher_inf = $video->teacher;
+            $category_inf = $video->category;
+            return [
+                'id'            => $video->id,
+                'video'         => [
+                    'url'       => $video_inf->url,
+                    'thumbnail' => $video_inf->thumbnail
+                ],
+                'teacher'       => $teacher_inf->name,
+                'category'      => $category_inf->category_name,
+                'title'         => $video->title,
+                'description'   => $video->description,
+            ];
+        });
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateVideoDetailRequest  $request
-     * @param  \App\Models\VideoDetail  $videoDetail
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateVideoDetailRequest $request, VideoDetail $videoDetail)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\VideoDetail  $videoDetail
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(VideoDetail $videoDetail)
-    {
-        //
+        return response()->json([
+            'data' => $videos,
+            'message' => 'Get video successfully'
+        ], 200);
     }
 }

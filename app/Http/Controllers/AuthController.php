@@ -23,7 +23,7 @@ class AuthController extends Controller
 
         $user = User::query()->where('email', '=', $request->get('email'))->first();
 
-        if (!$token = auth()->attempt($credentials)) {
+        if (!$token = auth()->setTTL(60 * 24)->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -64,7 +64,7 @@ class AuthController extends Controller
      */
     public function refresh(): JsonResponse
     {
-        return $this->respondWithToken(auth()->refresh());
+        return $this->respondWithToken(auth()->setTTL(60 * 24)->refresh());
     }
 
     /**
