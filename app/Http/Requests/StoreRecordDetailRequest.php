@@ -11,9 +11,9 @@ class StoreRecordDetailRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,24 @@ class StoreRecordDetailRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'url' => [
+                'required'
+            ],
+            'thumbnail' => [
+                'required'
+            ],
+            'video_detail_id' => [
+                'required'
+            ],
+            'offer_id' => [
+                'required'
+            ],
+            'answer_id' => [
+                'required'
+            ],
         ];
     }
 }
