@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RecordDetailController;
 use App\Http\Controllers\VideoDetailController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +23,6 @@ Route::get('/me', [AuthController::class, 'me']);
 
 // Video_details
 Route::resource('video_details', VideoDetailController::class);
+
+// Record_details
+Route::resource('record_details', RecordDetailController::class);

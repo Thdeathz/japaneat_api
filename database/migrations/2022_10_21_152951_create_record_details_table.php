@@ -15,13 +15,16 @@ return new class extends Migration
     {
         Schema::create('record_details', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('video_id')->unsigned();
+            $table->bigInteger('record_id')->unsigned();
+            $table->bigInteger('video_detail_id')->unsigned();
             $table->bigInteger('offer_id')->unsigned();
             $table->bigInteger('answer_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('video_id')
+            $table->foreign('record_id')
                 ->references('id')->on('videos');
+            $table->foreign('video_detail_id')
+                ->references('id')->on('video_details');
             $table->foreign('offer_id')
                 ->references('id')->on('users');
             $table->foreign('answer_id')

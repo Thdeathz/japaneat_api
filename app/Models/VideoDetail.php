@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class VideoDetail extends Model
 {
@@ -19,17 +20,17 @@ class VideoDetail extends Model
         'description'
     ];
 
-    public function video(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function video(): HasOne
     {
         return $this->hasOne(Videos::class, 'id', 'video_id');
     }
 
-    public function teacher(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function teacher(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'teacher_id');
     }
 
-    public function category(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function category(): HasOne
     {
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
