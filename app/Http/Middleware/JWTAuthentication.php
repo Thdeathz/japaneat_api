@@ -17,10 +17,10 @@ class JWTAuthentication
      * Handle an incoming request.
      *
      * @param Request $request
-     * @param Closure(Request): (Response|RedirectResponse) $next
-     * @return JsonResponse
+     * @param Closure $next
+     * @return JsonResponse|RedirectResponse|Response|mixed
      */
-    public function handle(Request $request, Closure $next): JsonResponse
+    public function handle(Request $request, Closure $next): mixed
     {
         try {
             JWTAuth::parseToken()->authenticate();

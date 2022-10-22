@@ -11,9 +11,9 @@ class StoreVideoDetailRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +21,32 @@ class StoreVideoDetailRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            //
+            'url' => [
+                'required'
+            ],
+            'thumbnail' => [
+                'required'
+            ],
+            'teacher_id' => [
+                'required'
+            ],
+            'category_id' => [
+                'required'
+            ],
+            'level' => [
+                'required'
+            ],
+            'title' => [
+                'string',
+                'required'
+            ],
+            'description' => [
+                'string',
+                'required'
+            ],
         ];
     }
 }
