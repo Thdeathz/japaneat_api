@@ -27,6 +27,10 @@ Route::resource('video_details', VideoDetailController::class);
 
 // Record_details
 Route::resource('record_details', RecordDetailController::class);
+Route::group(['prefix' => 'record_details'], function () {
+    Route::get('/teacher/{teacher_id}', [RecordDetailController::class, 'getRecordByTeacherId']);
+    Route::get('/student/{student_id}', [RecordDetailController::class, 'getRecordByStudentId']);
+});
 
 // feedback
 Route::resource('feedback', FeedbackController::class);

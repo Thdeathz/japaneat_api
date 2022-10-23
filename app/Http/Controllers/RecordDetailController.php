@@ -62,6 +62,46 @@ class RecordDetailController extends Controller
     }
 
     /**
+     * Return record by teacher id
+     *
+     * @param  $teacher_id
+     * @return \Illuminate\Http\Response
+     */
+    public function getRecordByTeacherId($teacher_id)
+    {
+        $record = RecordDetail::query()
+            ->select('record_details.*')
+            ->join('video_details', 'record_details.video_detail_id', 'video_details.id')
+            ->where('video_details.teacher_id', '=', $teacher_id)->get();
+        if($record) {
+            return $this->respond($record);
+        }
+        return response()->json([
+            'message' => 'Record not found'
+        ], 400);
+    }
+
+    /**
+     * Return record by teacher id
+     *
+     * @param  $student_id
+     * @return \Illuminate\Http\Response
+     */
+    public function getRecordByStudentId($student_id)
+    {
+        $records = RecordDetail::query()
+            ->where('offer_id', '=', $student_id)
+            ->orWhere('answer_id', '=', $student_id)
+            ->get();
+        if($records) {
+            return $this->respond($records);
+        }
+        return response()->json([
+            'message' => 'Record not found'
+        ], 400);
+    }
+
+    /**
      * Get the token array structure.
      *
      * @param object $records
