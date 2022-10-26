@@ -78,7 +78,10 @@ class VideoDetailController extends Controller
                     'url'       => $video_inf->url,
                     'thumbnail' => $video_inf->thumbnail
                 ],
-                'teacher'       => $teacher_inf->name,
+                'teacher'       => [
+                    'id'        => $teacher_inf->id,
+                    'name'      => $teacher_inf->name
+                ],
                 'category'      => $category_inf->category_name,
                 'title'         => $video->title,
                 'description'   => $video->description,

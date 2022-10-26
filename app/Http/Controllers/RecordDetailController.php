@@ -37,8 +37,9 @@ class RecordDetailController extends Controller
             ]);
             $record_detail = $request->validated();
             $record_detail['record_id'] = $record->id;
-            RecordDetail::query()->create($record_detail);
+            $record = RecordDetail::query()->create($record_detail);
             return response()->json([
+                'data'    => $record,
                 'message' => 'Add record successfully'
             ], 200);
         }
@@ -117,14 +118,24 @@ class RecordDetailController extends Controller
             $feedback = $record->feedback;
             return [
                 'id'            => $record->id,
-                'record'         => [
+                'record'        => [
                     'url'       => $record_inf->url,
                     'thumbnail' => $record_inf->thumbnail
                 ],
-                'teacher'       => $video_inf->teacher->name,
+                'teacher'       => [
+                    'id'        => $video_inf->teacher->id,
+                    'name'      => $video_inf->teacher->name
+                ],
+                'videoId'       => $video_inf->id,
                 'feedback'      => $feedback,
-                'offer'         => $offer_inf->name,
-                'answer'        => $answer_inf->name,
+                'offer'         => [
+                    'id'        => $offer_inf->id,
+                    'name'      => $offer_inf->name
+                ],
+                'answer'        => [
+                    'id'        => $answer_inf->id,
+                    'name'      => $answer_inf->name
+                ]
             ];
         });
 
