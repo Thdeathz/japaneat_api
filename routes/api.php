@@ -22,6 +22,12 @@ Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/refresh', [AuthController::class, 'refresh']);
 Route::get('/me', [AuthController::class, 'me']);
 
+// Users
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/point/{id}', [AuthController::class, 'getCurrentPoint']);
+    Route::post('/point/{id}', [AuthController::class, 'usePoint']);
+});
+
 // Video_details
 Route::resource('video_details', VideoDetailController::class);
 

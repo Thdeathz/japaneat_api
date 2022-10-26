@@ -13,15 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('achievements', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->unsignedInteger('role')->default(1);
-            $table->bigInteger('total_point')->nullable();
-            $table->bigInteger('used_point')->nullable();
-            $table->string('achievement')->nullable();
+            $table->string('image')->nullable();
+            $table->longText('url')->nullable();
+            $table->bigInteger('require_point');
+            $table->unsignedInteger('type');
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('achievements');
     }
 };
