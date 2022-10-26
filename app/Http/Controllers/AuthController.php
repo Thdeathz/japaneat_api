@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Faker\Core\Number;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -80,6 +81,44 @@ class AuthController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param $id
+     * @return JsonResponse
+     */
+    protected function getCurrentPoint($id): JsonResponse
+    {
+        $user = User::query()->where('id', '=', $id)->first();
+
+        $point = (int)$user->total_point - (int)$user->used_point;
+
+        return response()->json([
+            'point' => $point,
+            'message'      => 'Get current point successfully'
+        ]);
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
+    protected function usePoint(Request $request, $id): JsonResponse
+    {
+        $user = User::query()->where('id', '=', $id)->first();
+        $user->used_point = (int)$request->get('used_point');
+        $point = (int)$user->total_point - (int)$user->used_point;
+        $user->save();
+
+        return response()->json([
+            'point'        => $point,
+            'message'      => 'Get current point successfully'
         ]);
     }
 }
