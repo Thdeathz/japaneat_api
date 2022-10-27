@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\RecordDetailController;
@@ -26,6 +27,7 @@ Route::get('/me', [AuthController::class, 'me']);
 Route::group(['prefix' => 'user'], function () {
     Route::get('/point/{id}', [AuthController::class, 'getCurrentPoint']);
     Route::post('/point/{id}', [AuthController::class, 'usePoint']);
+    Route::get('/achievements/{id}', [AuthController::class, 'getAchievements']);
 });
 
 // Video_details
@@ -40,3 +42,6 @@ Route::group(['prefix' => 'record_details'], function () {
 
 // feedback
 Route::resource('feedback', FeedbackController::class);
+
+// achievements
+Route::resource('achievements', AchievementController::class);

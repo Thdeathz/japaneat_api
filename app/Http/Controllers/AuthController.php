@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Achievement;
 use App\Models\User;
 use Faker\Core\Number;
 use Illuminate\Http\JsonResponse;
@@ -27,10 +28,18 @@ class AuthController extends Controller
         if (!$token = auth()->setTTL(60 * 24)->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+        $achievements = array_map( function ($each) {
+            $achievement = Achievement::query()
+                                ->where('id', '=', $each)
+                                ->first();
+            if($achievement) return $achievement;
+            return null;
+        }, explode(',', $user->achievement ));
 
         return response()->json([
             'message' => 'Login Successfully',
             'user' => $user,
+            'achievements' => $achievements,
             'token' => $token,
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
@@ -103,7 +112,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the token array structure.
+     * Use point.
      *
      * @param Request $request
      * @param $id
@@ -112,13 +121,42 @@ class AuthController extends Controller
     protected function usePoint(Request $request, $id): JsonResponse
     {
         $user = User::query()->where('id', '=', $id)->first();
-        $user->used_point = (int)$request->get('used_point');
+        $user->used_point += (int)$request->get('used_point');
         $point = (int)$user->total_point - (int)$user->used_point;
+        if($user->achievement) {
+            $user->achievement = $user->achievement . ',' . $request->get('achievement_id');
+        } else {
+            $user->achievement = `{$request->get('achievement_id')}`;
+        }
         $user->save();
 
         return response()->json([
-            'point'        => $point,
+            'point'        =>  $point,
             'message'      => 'Get current point successfully'
+        ]);
+    }
+
+    /**
+     * Get current achievement
+     *
+     * @param $id
+     * @return JsonResponse
+     */
+    protected function getAchievements($id): JsonResponse
+    {
+        $user = User::query()->where('id', '=', $id)->first();
+
+        $achievements = array_map( function ($each) {
+            $achievement = Achievement::query()
+                ->where('id', '=', $each)
+                ->first();
+            if($achievement) return $achievement;
+            return null;
+        }, explode(',', $user->achievement ));
+
+        return response()->json([
+            'data' => $achievements,
+            'message' => 'Get achievement successfully',
         ]);
     }
 }
