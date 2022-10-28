@@ -28,13 +28,18 @@ class AuthController extends Controller
         if (!$token = auth()->setTTL(60 * 24)->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        $achievements = array_map( function ($each) {
-            $achievement = Achievement::query()
-                                ->where('id', '=', $each)
-                                ->first();
-            if($achievement) return $achievement;
-            return null;
-        }, explode(',', $user->achievement ));
+        if($user->role == 1) {
+            $achievements = array_map( function ($each) {
+                $achievement = Achievement::query()
+                    ->where('id', '=', $each)
+                    ->first();
+                if($achievement) return $achievement;
+                return null;
+            }, explode(',', $user->achievement ));
+        } else {
+            $achievements = null;
+        }
+
 
         return response()->json([
             'message' => 'Login Successfully',
