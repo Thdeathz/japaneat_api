@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
                 'role' => 1,
                 'total_point' => 1000,
                 'used_point' => 300,
-                'achievement' => '1,5,8',
+                'achievement' => '2,6,8',
                 'password' => Hash::make('123456'),
             ],
             [
@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
                 'role' => 1,
                 'total_point' => 1000,
                 'used_point' => 200,
-                'achievement' => '6,9',
+                'achievement' => '2,6,8',
                 'password' => Hash::make('123456'),
             ],
             [
