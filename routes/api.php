@@ -28,6 +28,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/point/{id}', [AuthController::class, 'getCurrentPoint']);
     Route::post('/point/{id}', [AuthController::class, 'usePoint']);
     Route::get('/achievements/{id}', [AuthController::class, 'getAchievements']);
+    Route::get('/ranking', [AchievementController::class, 'getUserRanking']);
 });
 
 // Video_details
