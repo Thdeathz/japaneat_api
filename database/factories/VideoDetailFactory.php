@@ -20,7 +20,7 @@ class VideoDetailFactory extends Factory
             'video_id' => '1',
             'level' => $this->faker->numberBetween(1,5),
             'category_id' => $this->faker->numberBetween(1,4),
-            'teacher_id' => $this->faker->numberBetween(3,7),
+            'teacher_id' => $this->faker->numberBetween(11,15),
             'title' => $this->faker->randomElement([
                 'N5 kaiwa',
                 'N4 kaiwa',
