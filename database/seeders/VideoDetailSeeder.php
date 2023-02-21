@@ -16,6 +16,16 @@ class VideoDetailSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('video_details')->insert([
+            [
+                'video_id' => 2,
+                'level' => 1,
+                'category_id' => 2,
+                'teacher_id' => 1,
+                'title' => 'Doraemon',
+                'description' => 'Quas ipsum perferendis fugiat nihil. Aperiam aspernatur necessitatibus cumque temporibus sit et. Vitae nam tempora laudantium tempore placeat magnam. Molestiae ex culpa culpa et doloribus voluptas.'
+            ]
+        ]);
         VideoDetail::factory()->count(20)->create();
     }
 }
