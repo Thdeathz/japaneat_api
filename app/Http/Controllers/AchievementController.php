@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Achievement;
 use App\Http\Requests\StoreAchievementRequest;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 
 class AchievementController extends Controller
@@ -32,5 +33,19 @@ class AchievementController extends Controller
     public function store(StoreAchievementRequest $request)
     {
         //
+    }
+
+    public function getUserRanking(): JsonResponse
+    {
+        $users = User::query()
+            ->select('id', 'name', 'total_point')
+            ->where('role', '=', '1')
+            ->orderBy('total_point', 'desc')
+            ->get();
+
+        return response()->json([
+            'data' => $users,
+            'message' => 'Get ranking successfully'
+        ], 200);
     }
 }

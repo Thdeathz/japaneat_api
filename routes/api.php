@@ -3,6 +3,7 @@
 use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\MergeController;
 use App\Http\Controllers\RecordDetailController;
 use App\Http\Controllers\VideoDetailController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::get('/point/{id}', [AuthController::class, 'getCurrentPoint']);
     Route::post('/point/{id}', [AuthController::class, 'usePoint']);
     Route::get('/achievements/{id}', [AuthController::class, 'getAchievements']);
+    Route::get('/ranking', [AchievementController::class, 'getUserRanking']);
 });
 
 // Video_details
@@ -38,6 +40,7 @@ Route::resource('record_details', RecordDetailController::class);
 Route::group(['prefix' => 'record_details'], function () {
     Route::get('/teacher/{teacher_id}', [RecordDetailController::class, 'getRecordByTeacherId']);
     Route::get('/student/{student_id}', [RecordDetailController::class, 'getRecordByStudentId']);
+    Route::get('/video/{video_id}', [RecordDetailController::class, 'getRecordByVideoId']);
 });
 
 // feedback
@@ -45,3 +48,6 @@ Route::resource('feedback', FeedbackController::class);
 
 // achievements
 Route::resource('achievements', AchievementController::class);
+
+// merge file
+Route::post('/merge-audio', [MergeController::class, 'mergeAudioVideo']);

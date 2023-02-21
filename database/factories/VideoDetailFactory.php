@@ -17,10 +17,10 @@ class VideoDetailFactory extends Factory
     public function definition()
     {
         return [
-            'video_id' => '1',
+            'video_id' => $this->faker->numberBetween(1,4),
             'level' => $this->faker->numberBetween(1,5),
             'category_id' => $this->faker->numberBetween(1,4),
-            'teacher_id' => $this->faker->numberBetween(3,7),
+            'teacher_id' => $this->faker->numberBetween(11,15),
             'title' => $this->faker->randomElement([
                 'N5 kaiwa',
                 'N4 kaiwa',
