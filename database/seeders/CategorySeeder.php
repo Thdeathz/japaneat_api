@@ -27,6 +27,18 @@ class CategorySeeder extends Seeder
             ],
             [
                 'category_name' => 'greeting',
+            ],
+            [
+                'category_name' => 'food',
+            ],
+            [
+                'category_name' => 'travel',
+            ],
+            [
+                'category_name' => 'music',
+            ],
+            [
+                'category_name' => 'interest',
             ]
         ]);
     }

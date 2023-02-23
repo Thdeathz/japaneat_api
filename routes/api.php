@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AchievementController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\MergeController;
 use App\Http\Controllers\RecordDetailController;
@@ -42,6 +43,9 @@ Route::group(['prefix' => 'record_details'], function () {
     Route::get('/student/{student_id}', [RecordDetailController::class, 'getRecordByStudentId']);
     Route::get('/video/{video_id}', [RecordDetailController::class, 'getRecordByVideoId']);
 });
+
+// categories
+Route::resource('categories', CategoryController::class);
 
 // feedback
 Route::resource('feedback', FeedbackController::class);

@@ -26,6 +26,6 @@ class VideoDetailSeeder extends Seeder
                 'description' => 'Quas ipsum perferendis fugiat nihil. Aperiam aspernatur necessitatibus cumque temporibus sit et. Vitae nam tempora laudantium tempore placeat magnam. Molestiae ex culpa culpa et doloribus voluptas.'
             ]
         ]);
-        VideoDetail::factory()->count(20)->create();
+        VideoDetail::factory()->count(50)->create();
     }
 }
